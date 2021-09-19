@@ -29,7 +29,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.conditional.lox",
-					"match": "\\b(if|else|else if)\\b"
+					"match": "\\b(if|else)\\b"
 				},
 				{
 					"name": "keyword.control.loop.lox",
@@ -52,7 +52,7 @@
 		"declarations": {
 			"patterns": [
 				{
-					"match": "\\b(class)\\s+([A-Za-z]+)(\\s+<\\s+([A-Za-z]+))?",
+					"match": "\\b(class)\\s+([A-Za-z]+)(\\s+<\\s+([A-Za-z]+))?\\s*{",
 					"captures": {
 						"1": { "name": "keyword.other.class.lox" },
 						"2": { "name": "entity.name.class.lox" },
@@ -164,13 +164,7 @@
 		"strings": {
 			"name": "string.quoted.double.lox",
 			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.lox",
-					"match": "\\\\."
-				}
-			]
+			"end": "\""
 		}
 	},
 	"scopeName": "source.lox"
