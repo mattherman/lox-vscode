@@ -1,0 +1,25 @@
+{
+    "name": "lox-language-support",
+    "displayName": "Lox Language Support",
+    "description": "Support for the Lox programming language",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "lox",
+            "aliases": ["Lox", "lox"],
+            "extensions": [".lox"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "lox",
+            "scopeName": "source.lox",
+            "path": "./syntaxes/lox.tmLanguage.json"
+        }]
+    }
+}
