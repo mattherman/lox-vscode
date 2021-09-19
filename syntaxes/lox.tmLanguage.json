@@ -52,7 +52,7 @@
 		"declarations": {
 			"patterns": [
 				{
-					"match": "\\b(class)\\s+([A-Za-z]+)(\\s+<\\s+([A-Za-z]+))?\\s*{",
+					"match": "\\b(class)\\s+([A-Za-z][A-Za-z0-9_]*)(\\s+<\\s+([A-Za-z][A-Za-z0-9_]*))?\\s*{",
 					"captures": {
 						"1": { "name": "keyword.other.class.lox" },
 						"2": { "name": "entity.name.class.lox" },
@@ -60,14 +60,14 @@
 					}
 				},
 				{
-					"match": "(\\bfun\\s+)?([A-Za-z]+)\\(.*\\)\\s*{",
+					"match": "(\\bfun\\s+)?([A-Za-z][A-Za-z0-9_]*)\\(.*\\)\\s*{",
 					"captures": {
 						"1": { "name": "keyword.other.function.lox" },
 						"2": { "name": "entity.name.function.lox" }
 					}
 				},
 				{
-					"match": "\\b(var)\\s+([A-Za-z]+)",
+					"match": "\\b(var)\\s+([A-Za-z][A-Za-z0-9_]*)",
 					"captures": {
 						"1": { "name": "keyword.other.var.lox" },
 						"2": { "name": "entity.name.variable.lox" }
@@ -78,13 +78,13 @@
 		"functions": {
 			"patterns": [
 				{
-					"match": "([A-Za-z]+)\\(.*\\)",
+					"match": "([A-Za-z][A-Za-z0-9_]*)\\(.*\\)",
 					"captures": {
 						"1": { "name": "entity.name.function.call.lox" }
 					}
 				},
 				{
-					"match": "\\.([A-Za-z]+)\\(.*\\)",
+					"match": "\\.([A-Za-z][A-Za-z0-9_]*)\\(.*\\)",
 					"captures": {
 						"1": { "name": "entity.name.function.method.call.lox" }
 					}
@@ -95,10 +95,10 @@
 			"patterns": [
 				{
 					"name": "variable.other.local.lox",
-					"match": "\\b[A-Za-z]+\\b"
+					"match": "\\b[A-Za-z][A-Za-z0-9_]*\\b"
 				},
 				{
-					"match": "\\.([A-Za-z]+)\\b",
+					"match": "\\.([A-Za-z][A-Za-z0-9_]*)\\b",
 					"captures": {
 						"1": { "name": "variable.other.property.lox" }
 					}
