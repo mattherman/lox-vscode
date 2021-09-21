@@ -13,12 +13,12 @@
 			]
 		},
 		"function": {
-			"name": "entity.name.function.call.lox",
-			"begin": "\\bfun\\s+(.*)(\\(.*\\))\\s*{",
+			"begin": "\\b(fun)\\s+(.*)(\\(.*\\))\\s*{",
 			"end": "\\}",
 			"captures": {
-				"1": { "name": "entity.name.function.lox" },
-				"2": { "patterns": [{ "include": "#expressionGroup" }] }
+				"1": { "name": "keyword.other.function.lox"},
+				"2": { "name": "entity.name.function.lox" },
+				"3": { "patterns": [{ "include": "#expressionGroup" }] }
 			},
 			"patterns": [
 				{ "include": "#expression" }
@@ -27,9 +27,10 @@
 		"call": {
 			"patterns": [
 				{
-					"match": "\\b(.*)(?:\\(.*\\))",
+					"match": "\\b(.*)(\\(.*\\))",
 					"captures": {
-						"1": { "name": "entity.name.function.lox" }
+						"1": { "name": "entity.name.function.lox" },
+						"2": { "patterns": [{ "include": "#expressionGroup" }]}
 					}
 				}
 			]
