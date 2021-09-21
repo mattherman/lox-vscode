@@ -1,0 +1,103 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Lox",
+	"patterns": [
+		{ "include": "#expression" }
+	],
+	"repository": {
+		"expression": {
+			"patterns": [
+				{ "include": "#function" },
+				{ "include": "#call" },
+				{ "include": "#primary" }
+			]
+		},
+		"function": {
+			"name": "entity.name.function.call.lox",
+			"begin": "\\bfun\\s+(.*)(\\(.*\\))\\s*{",
+			"end": "\\}",
+			"captures": {
+				"1": { "name": "entity.name.function.lox" },
+				"2": { "patterns": [{ "include": "#expressionGroup" }] }
+			},
+			"patterns": [
+				{ "include": "#expression" }
+			]
+		},
+		"call": {
+			"patterns": [
+				{
+					"match": "\\b(.*)(?:\\(.*\\))",
+					"captures": {
+						"1": { "name": "entity.name.function.lox" }
+					}
+				}
+			]
+		},
+		"expressionGroup": {
+			"name": "expression.group.lox",
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": { "name": "expression.group.begin.lox" }
+			},
+			"endCaptures": {
+				"1": { "name": "expression.group.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#expressionList" },
+				{ "include": "#expression"}
+			]
+		},
+		"expressionList": {
+			"match": "\\s*(.*?),(.*)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#expression" }]},
+				"2": { "patterns": [
+					{ "include": "#expressionList" },
+					{ "include": "#expression" }
+				]}
+			}
+		},
+		"primary": {
+			"patterns": [
+				{
+					"name": "constant.language.lox",
+					"match": "\\b(true|false|nil)\\b"
+				},
+				{
+					"name": "variable.language.lox",
+					"match": "\\b(super|this)\\b"
+				},
+				{
+					"include": "#number"
+				},
+				{
+					"include": "#identifier"
+				},
+				{
+					"include": "#string"
+				},
+				{
+					"begin": "\\(",
+					"end": "\\)",
+					"patterns": [{ "include": "#expression" }]
+				}
+			]
+		},
+		"number": {
+			"name": "constant.numeric.number",
+			"match": "\\d+(\\.\\d+)?"
+		},
+		"identifier": {
+			"name": "variable.other.lox",
+			"match": "[A-Za-z][A-Za-z0-9_]*"
+		},
+		"string": {
+			"name": "string.quoted.double.lox",
+			"begin": "\"",
+			"end": "\""
+		}
+	},
+	"scopeName": "source.lox"
+}
