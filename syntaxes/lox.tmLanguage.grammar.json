@@ -2,23 +2,41 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Lox",
 	"patterns": [
+		{ "include": "#statement" },
 		{ "include": "#expression" }
 	],
 	"repository": {
+		"statement": {
+			"patterns": [
+				{ "include": "#class" },
+				{ "include": "#function" }
+			]
+		},
 		"expression": {
 			"patterns": [
-				{ "include": "#function" },
 				{ "include": "#call" },
 				{ "include": "#primary" }
 			]
 		},
+		"class": {
+			"begin": "\\b(class)\\s+([A-Za-z][A-Za-z0-9_]*)(?:\\s+<\\s+([A-Za-z][A-Za-z0-9_]*))?\\s*\\{",
+			"end": "\\}",
+			"captures": {
+				"1": { "name": "keyword.other.class.lox" },
+				"2": { "name": "entity.name.class.lox" },
+				"3": { "name": "entity.name.class.subclass.lox" }
+			},
+			"patterns": [
+				{ "include": "#expression" }
+			]
+		},
 		"function": {
-			"begin": "\\b(fun)\\s+(.*)(\\(.*\\))\\s*{",
+			"begin": "\\b(fun)\\s+([A-Za-z][A-Za-z0-9_]*)(\\(.*\\))\\s*{",
 			"end": "\\}",
 			"captures": {
 				"1": { "name": "keyword.other.function.lox"},
 				"2": { "name": "entity.name.function.lox" },
-				"3": { "patterns": [{ "include": "#expressionGroup" }] }
+				"3": { "patterns": [{ "include": "#parameters" }] }
 			},
 			"patterns": [
 				{ "include": "#expression" }
@@ -27,23 +45,23 @@
 		"call": {
 			"patterns": [
 				{
-					"match": "\\b(.*)(\\(.*\\))",
+					"match": "\\b([A-Za-z][A-Za-z0-9_]*)(\\(.*\\))",
 					"captures": {
 						"1": { "name": "entity.name.function.lox" },
-						"2": { "patterns": [{ "include": "#expressionGroup" }]}
+						"2": { "patterns": [{ "include": "#arguments" }]}
 					}
 				}
 			]
 		},
-		"expressionGroup": {
-			"name": "expression.group.lox",
+		"arguments": {
+			"name": "meta.function.arguments.lox",
 			"begin": "\\(",
 			"end": "\\)",
 			"beginCaptures": {
-				"0": { "name": "expression.group.begin.lox" }
+				"0": { "name": "meta.function.arguments.begin.lox" }
 			},
 			"endCaptures": {
-				"1": { "name": "expression.group.end.lox" }
+				"0": { "name": "meta.function.arguments.end.lox" }
 			},
 			"patterns": [
 				{ "include": "#expressionList" },
@@ -57,6 +75,31 @@
 				"2": { "patterns": [
 					{ "include": "#expressionList" },
 					{ "include": "#expression" }
+				]}
+			}
+		},
+		"parameters": {
+			"name": "meta.function.parameters.lox",
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": { "name": "meta.function.parameters.begin.lox" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.function.parameters.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#identifierList" },
+				{ "include": "#identifier" }
+			]
+		},
+		"identifierList": {
+			"match": "\\s*(.*?),(.*)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#identifier" }]},
+				"2": { "patterns": [
+					{ "include": "#identifierList" },
+					{ "include": "#identifier" }
 				]}
 			}
 		},
