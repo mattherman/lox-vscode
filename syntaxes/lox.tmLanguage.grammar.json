@@ -274,12 +274,24 @@
 		"primary": {
 			"patterns": [
 				{
-					"name": "constant.language.lox",
-					"match": "\\b(true|false|nil)\\b"
+					"name": "constant.language.true.lox",
+					"match": "\\b(true)\\b"
 				},
 				{
-					"name": "variable.language.lox",
-					"match": "\\b(super|this)\\b"
+					"name": "constant.language.false.lox",
+					"match": "\\b(false)\\b"
+				},
+				{
+					"name": "constant.language.nil.lox",
+					"match": "\\b(nil)\\b"
+				},
+				{
+					"name": "variable.language.super.lox",
+					"match": "\\b(super)\\b"
+				},
+				{
+					"name": "variable.language.this.lox",
+					"match": "\\b(this)\\b"
 				},
 				{
 					"include": "#number"
