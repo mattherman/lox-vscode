@@ -12,6 +12,8 @@
 				{ "include": "#functionDeclaration" },
 				{ "include": "#methodDeclaration" },
 				{ "include": "#variableDeclaration" },
+				{ "include": "#print" },
+				{ "include": "#return" },
 				{ "include": "#block" }
 			]
 		},
@@ -68,6 +70,20 @@
 			"patterns": [
 				{ "include": "#blockContents" }
 			]
+		},
+		"print": {
+			"match": "\\b(print)\\s+(.*);",
+			"captures": {
+				"1": { "name": "keyword.other.builtin.print.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
+		"return": {
+			"match": "\\b(return)\\s*(?:\\s+(.*))?;",
+			"captures": {
+				"1": { "name": "keyword.control.flow.return.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
 		},
 		"block": {
 			"name": "meta.block.lox",
