@@ -28,7 +28,8 @@
 		},
 		"expression": {
 			"patterns": [
-				{ "include": "#call" },
+				{ "include": "#methodCall" },
+				{ "include": "#functionCall" },
 				{ "include": "#operator" },
 				{ "include": "#primary" }
 			]
@@ -152,7 +153,15 @@
 				{ "include": "#expression" }
 			]
 		},
-		"call": {
+		"methodCall": {
+			"name": "meta.method.call.lox",
+			"match": "\\.(\\w+)(\\(.*\\))",
+			"captures": {
+				"1": { "name": "entity.name.function.method.lox" },
+				"2": { "patterns": [{ "include": "#arguments" }]}
+			}
+		},
+		"functionCall": {
 			"name": "meta.function.call.lox",
 			"match": "\\b(\\w+)(\\(.*\\))",
 			"captures": {
