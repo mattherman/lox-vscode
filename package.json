@@ -19,7 +19,7 @@
         "grammars": [{
             "language": "lox",
             "scopeName": "source.lox",
-            "path": "./syntaxes/lox.tmLanguage.grammar.json"
+            "path": "./syntaxes/lox.tmLanguage.json"
         }]
     }
 }

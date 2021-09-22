@@ -1,111 +1,233 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Lox",
+	"scopeName": "source.lox",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#declarations"
-		},
-		{
-			"include": "#functions"
-		},
-		{
-			"include": "#variables"
-		},
-		{
-			"include": "#operators"
-		},
-		{
-			"include": "#constants"
-		},
-		{
-			"include": "#strings"
-		}
+		{ "include": "#declaration" },
+		{ "include": "#statement" },
+		{ "include": "#expression" }
 	],
 	"repository": {
-		"keywords": {
+		"declaration": {
 			"patterns": [
-				{
-					"name": "keyword.control.conditional.lox",
-					"match": "\\b(if|else)\\b"
-				},
-				{
-					"name": "keyword.control.loop.lox",
-					"match": "\\b(while|for)\\b"
-				},
-				{
-					"name": "keyword.control.flow.lox",
-					"match": "\\b(return)\\b"
-				},
-				{
-					"name": "keyword.other.builtin.lox",
-					"match": "\\b(print)\\b"
-				},
-				{
-					"name": "variable.language.lox",
-					"match": "\\b(super|this)\\b"
-				}
+				{ "include": "#classDeclaration" },
+				{ "include": "#functionDeclaration" },
+				{ "include": "#variableDeclaration" }
 			]
 		},
-		"declarations": {
+		"statement": {
 			"patterns": [
-				{
-					"match": "\\b(class)\\s+([A-Za-z][A-Za-z0-9_]*)(\\s+<\\s+([A-Za-z][A-Za-z0-9_]*))?\\s*{",
-					"captures": {
-						"1": { "name": "keyword.other.class.lox" },
-						"2": { "name": "entity.name.class.lox" },
-						"4": { "name": "entity.name.class.subclass.lox" }
-					}
-				},
-				{
-					"match": "(\\bfun\\s+)?([A-Za-z][A-Za-z0-9_]*)\\(.*\\)\\s*{",
-					"captures": {
-						"1": { "name": "keyword.other.function.lox" },
-						"2": { "name": "entity.name.function.lox" }
-					}
-				},
-				{
-					"match": "\\b(var)\\s+([A-Za-z][A-Za-z0-9_]*)",
-					"captures": {
-						"1": { "name": "keyword.other.var.lox" },
-						"2": { "name": "entity.name.variable.lox" }
-					}
-				}
+				{ "include": "#for" },
+				{ "include": "#if" },
+				{ "include": "#else" },
+				{ "include": "#print" },
+				{ "include": "#return" },
+				{ "include": "#while" },
+				{ "include": "#block" }
 			]
 		},
-		"functions": {
+		"expression": {
 			"patterns": [
-				{
-					"match": "([A-Za-z][A-Za-z0-9_]*)\\(.*\\)",
-					"captures": {
-						"1": { "name": "entity.name.function.call.lox" }
-					}
-				},
-				{
-					"match": "\\.([A-Za-z][A-Za-z0-9_]*)\\(.*\\)",
-					"captures": {
-						"1": { "name": "entity.name.function.method.call.lox" }
-					}
-				}
+				{ "include": "#methodCall" },
+				{ "include": "#functionCall" },
+				{ "include": "#objectProperty" },
+				{ "include": "#operator" },
+				{ "include": "#primary" }
 			]
 		},
-		"variables": {
+		"variableDeclaration": {
+			"name": "meta.variable.declaration.lox",
+			"match": "\\b(var)\\s+(\\w+)(?:\\s*(=)\\s*(.*))?;",
+			"captures": {
+				"1": { "name": "keyword.other.var.lox" },
+				"2": { "patterns": [{ "include": "#identifier" }]},
+				"3": { "name": "keyword.operator.assignment.lox" },
+				"4": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
+		"classDeclaration": {
+			"name": "meta.class.declaration.lox",
+			"begin": "\\b(class)\\s+(\\w+)(?:\\s+<\\s+(\\w+))?\\s*\\{",
+			"end": "\\}",
+			"captures": {
+				"1": { "name": "keyword.other.class.lox" },
+				"2": { "name": "entity.name.class.lox" },
+				"3": { "name": "entity.name.class.subclass.lox" }
+			},
 			"patterns": [
-				{
-					"name": "variable.other.local.lox",
-					"match": "\\b[A-Za-z][A-Za-z0-9_]*\\b"
-				},
-				{
-					"match": "\\.([A-Za-z][A-Za-z0-9_]*)\\b",
-					"captures": {
-						"1": { "name": "variable.other.property.lox" }
-					}
-				}
+				{ "include": "#methodDeclaration" },
+				{ "include": "#blockContents" }
 			]
 		},
-		"operators": {
+		"methodDeclaration": {
+			"name": "meta.method.declaration.lox",
+			"begin": "\\b(\\w+)(\\(.*\\))\\s*{",
+			"end": "\\}",
+			"captures": {
+				"1": { "name": "entity.name.function.method.lox" },
+				"2": { "patterns": [{ "include": "#parameters" }]}
+			},
+			"patterns": [
+				{ "include": "#blockContents" }
+			]
+		},
+		"functionDeclaration": {
+			"name": "meta.function.declaration.lox",
+			"begin": "\\b(fun)\\s+(\\w+)(\\(.*\\))\\s*{",
+			"end": "\\}",
+			"captures": {
+				"1": { "name": "keyword.other.function.lox"},
+				"2": { "name": "entity.name.function.lox" },
+				"3": { "patterns": [{ "include": "#parameters" }] }
+			},
+			"patterns": [
+				{ "include": "#blockContents" }
+			]
+		},
+		"for": {
+			"match": "\\b(for)\\s*\\((.*)\\)(.*)",
+			"captures": {
+				"1": { "name": "keyword.control.loop.for.lox" },
+				"2": {
+					"patterns": [
+						{ "include": "#variableDeclaration" },
+						{ "include": "#expression" }
+					]
+				},
+				"3": { "patterns": [{ "include": "#statement" }]}
+			}
+		},
+		"if": {
+			"match": "\\b(if)\\s*\\((.*)\\)(.*)",
+			"captures": {
+				"1": { "name": "keyword.control.conditional.if.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]},
+				"3": { "patterns": [{ "include": "#statement" }]}
+			}
+		},
+		"else": {
+			"match": "\\b(else)\\b(.*)",
+			"captures": {
+				"1": { "name": "keyword.control.conditional.else.lox" },
+				"2": { "patterns": [{ "include": "#statement" }]}
+			}
+		},
+		"print": {
+			"match": "\\b(print)\\s+(.*);",
+			"captures": {
+				"1": { "name": "keyword.other.builtin.print.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
+		"return": {
+			"match": "\\b(return)\\s*(?:\\s+(.*))?;",
+			"captures": {
+				"1": { "name": "keyword.control.flow.return.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
+		"while": {
+			"match": "\\b(while)\\s*\\((.*)\\)",
+			"captures": {
+				"1": { "name": "keyword.control.loop.while.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
+		"block": {
+			"name": "meta.block.lox",
+			"begin": "\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"0": { "name": "meta.block.begin.lox" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.block.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#blockContents" }
+			]
+		},
+		"blockContents": {
+			"patterns": [
+				{ "include": "#declaration" },
+				{ "include": "#statement" },
+				{ "include": "#expression" }
+			]
+		},
+		"methodCall": {
+			"name": "meta.method.call.lox",
+			"match": "\\.(\\w+)(\\(.*\\))",
+			"captures": {
+				"1": { "name": "entity.name.function.method.lox" },
+				"2": { "patterns": [{ "include": "#arguments" }]}
+			}
+		},
+		"functionCall": {
+			"name": "meta.function.call.lox",
+			"match": "\\b(\\w+)(\\(.*\\))",
+			"captures": {
+				"1": { "name": "entity.name.function.lox" },
+				"2": { "patterns": [{ "include": "#arguments" }]}
+			}
+		},
+		"objectProperty": {
+			"name": "meta.object.property.lox",
+			"match": "\\.(\\w+)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#identifier" }]}
+			}
+		},
+		"arguments": {
+			"name": "meta.function.arguments.lox",
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": { "name": "meta.function.arguments.begin.lox" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.function.arguments.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#expressionList" },
+				{ "include": "#expression"}
+			]
+		},
+		"expressionList": {
+			"match": "\\s*(.*?),(.*)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#expression" }]},
+				"2": { "patterns": [
+					{ "include": "#expressionList" },
+					{ "include": "#expression" }
+				]}
+			}
+		},
+		"parameters": {
+			"name": "meta.function.parameters.lox",
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": { "name": "meta.function.parameters.begin.lox" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.function.parameters.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#identifierList" },
+				{ "include": "#identifier" }
+			]
+		},
+		"identifierList": {
+			"match": "\\s*(.*?),(.*)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#identifier" }]},
+				"2": { "patterns": [
+					{ "include": "#identifierList" },
+					{ "include": "#identifier" }
+				]}
+			}
+		},
+		"operator": {
 			"patterns": [
 				{
 					"name": "keyword.operator.equality.equal.lox",
@@ -149,23 +271,56 @@
 				}
 			]
 		},
-		"constants": {
+		"primary": {
 			"patterns": [
 				{
-					"name": "constant.language.lox",
-					"match": "\\b(true|false|nil)\\b"
+					"name": "constant.language.true.lox",
+					"match": "\\b(true)\\b"
 				},
 				{
-					"name": "constant.numeric.number",
-					"match": "\\d+(\\.\\d+)?"
+					"name": "constant.language.false.lox",
+					"match": "\\b(false)\\b"
+				},
+				{
+					"name": "constant.language.nil.lox",
+					"match": "\\b(nil)\\b"
+				},
+				{
+					"name": "variable.language.super.lox",
+					"match": "\\b(super)\\b"
+				},
+				{
+					"name": "variable.language.this.lox",
+					"match": "\\b(this)\\b"
+				},
+				{
+					"include": "#number"
+				},
+				{
+					"include": "#identifier"
+				},
+				{
+					"include": "#string"
+				},
+				{
+					"begin": "\\(",
+					"end": "\\)",
+					"patterns": [{ "include": "#expression" }]
 				}
 			]
 		},
-		"strings": {
+		"number": {
+			"name": "constant.numeric.number",
+			"match": "\\d+(\\.\\d+)?"
+		},
+		"identifier": {
+			"name": "variable.other.lox",
+			"match": "[A-Za-z][A-Za-z0-9_]*"
+		},
+		"string": {
 			"name": "string.quoted.double.lox",
 			"begin": "\"",
 			"end": "\""
 		}
-	},
-	"scopeName": "source.lox"
+	}
 }
