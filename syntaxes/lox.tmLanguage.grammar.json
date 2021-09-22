@@ -2,18 +2,24 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Lox",
 	"patterns": [
+		{ "include": "#declaration" },
 		{ "include": "#statement" },
 		{ "include": "#expression" }
 	],
 	"repository": {
-		"statement": {
+		"declaration": {
 			"patterns": [
 				{ "include": "#classDeclaration" },
 				{ "include": "#functionDeclaration" },
 				{ "include": "#methodDeclaration" },
-				{ "include": "#variableDeclaration" },
+				{ "include": "#variableDeclaration" }
+			]
+		},
+		"statement": {
+			"patterns": [
 				{ "include": "#print" },
 				{ "include": "#return" },
+				{ "include": "#while" },
 				{ "include": "#block" }
 			]
 		},
@@ -85,6 +91,13 @@
 				"2": { "patterns": [{ "include": "#expression" }]}
 			}
 		},
+		"while": {
+			"match": "\\b(while)\\s*\\((.*)\\)",
+			"captures": {
+				"1": { "name": "keyword.control.loop.while.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]}
+			}
+		},
 		"block": {
 			"name": "meta.block.lox",
 			"begin": "\\{",
@@ -101,6 +114,7 @@
 		},
 		"blockContents": {
 			"patterns": [
+				{ "include": "#declaration" },
 				{ "include": "#statement" },
 				{ "include": "#expression" }
 			]
