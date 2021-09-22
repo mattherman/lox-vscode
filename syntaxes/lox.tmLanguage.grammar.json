@@ -8,8 +8,8 @@
 	"repository": {
 		"statement": {
 			"patterns": [
-				{ "include": "#class" },
-				{ "include": "#function" },
+				{ "include": "#classDeclaration" },
+				{ "include": "#functionDeclaration" },
 				{ "include": "#variableDeclaration" }
 			]
 		},
@@ -20,13 +20,17 @@
 			]
 		},
 		"variableDeclaration": {
-			"match": "\\b(var)\\s+([A-Za-z][A-Za-z0-9_]*)",
+			"name": "meta.declaration.variable.lox",
+			"match": "\\b(var)\\s+([A-Za-z][A-Za-z0-9_]*)(?:\\s*(=)\\s*(.*))?;",
 			"captures": {
 				"1": { "name": "keyword.other.var.lox" },
-				"2": { "patterns": [{ "include": "#identifier" }]}
+				"2": { "patterns": [{ "include": "#identifier" }]},
+				"3": { "name": "keyword.operator.assignment.lox" },
+				"4": { "patterns": [{ "include": "#expression" }]}
 			}
 		},
-		"class": {
+		"classDeclaration": {
+			"name": "meta.declaration.class.lox",
 			"begin": "\\b(class)\\s+([A-Za-z][A-Za-z0-9_]*)(?:\\s+<\\s+([A-Za-z][A-Za-z0-9_]*))?\\s*\\{",
 			"end": "\\}",
 			"captures": {
@@ -38,7 +42,8 @@
 				{ "include": "#expression" }
 			]
 		},
-		"function": {
+		"functionDeclaration": {
+			"name": "meta.declaration.function.lox",
 			"begin": "\\b(fun)\\s+([A-Za-z][A-Za-z0-9_]*)(\\(.*\\))\\s*{",
 			"end": "\\}",
 			"captures": {
