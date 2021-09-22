@@ -17,6 +17,8 @@
 		},
 		"statement": {
 			"patterns": [
+				{ "include": "#if" },
+				{ "include": "#else" },
 				{ "include": "#print" },
 				{ "include": "#return" },
 				{ "include": "#while" },
@@ -76,6 +78,21 @@
 			"patterns": [
 				{ "include": "#blockContents" }
 			]
+		},
+		"if": {
+			"match": "\\b(if)\\s*\\((.*)\\)(.*)",
+			"captures": {
+				"1": { "name": "keyword.control.conditional.if.lox" },
+				"2": { "patterns": [{ "include": "#expression" }]},
+				"3": { "patterns": [{ "include": "#statement" }]}
+			}
+		},
+		"else": {
+			"match": "\\b(else)\\b(.*)",
+			"captures": {
+				"1": { "name": "keyword.control.conditional.else.lox" },
+				"2": { "patterns": [{ "include": "#statement" }]}
+			}
 		},
 		"print": {
 			"match": "\\b(print)\\s+(.*);",
