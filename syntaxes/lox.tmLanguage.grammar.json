@@ -17,6 +17,7 @@
 		},
 		"statement": {
 			"patterns": [
+				{ "include": "#for" },
 				{ "include": "#if" },
 				{ "include": "#else" },
 				{ "include": "#print" },
@@ -28,6 +29,7 @@
 		"expression": {
 			"patterns": [
 				{ "include": "#call" },
+				{ "include": "#operator" },
 				{ "include": "#primary" }
 			]
 		},
@@ -78,6 +80,9 @@
 			"patterns": [
 				{ "include": "#blockContents" }
 			]
+		},
+		"for": {
+			"comment": "TODO"
 		},
 		"if": {
 			"match": "\\b(if)\\s*\\((.*)\\)(.*)",
@@ -193,6 +198,50 @@
 					{ "include": "#identifier" }
 				]}
 			}
+		},
+		"operator": {
+			"patterns": [
+				{
+					"name": "keyword.operator.equality.equal.lox",
+					"match": "=="
+				},
+				{
+					"name": "keyword.operator.equality.notEqual.lox",
+					"match": "!="
+				},
+				{
+					"name": "keyword.operator.logical.or.lox",
+					"match": "\\b(or)\\b"
+				},
+				{
+					"name": "keyword.operator.logical.and.lox",
+					"match": "\\b(and)\\b"
+				},
+				{
+					"name": "keyword.operator.logical.not.lox",
+					"match": "!"
+				},
+				{
+					"name": "keyword.operator.comparison.lessThanOrEqual.lox",
+					"match": "<="
+				},
+				{
+					"name": "keyword.operator.comparison.lessThan.lox",
+					"match": "<"
+				},
+				{
+					"name": "keyword.operator.comparison.greaterThanOrEqual.lox",
+					"match": ">"
+				},
+				{
+					"name": "keyword.operator.comparison.greaterThan.lox",
+					"match": ">="
+				},
+				{
+					"name": "keyword.operator.assignment.lox",
+					"match": "="
+				}
+			]
 		},
 		"primary": {
 			"patterns": [
