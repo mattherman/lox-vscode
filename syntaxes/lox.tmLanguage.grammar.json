@@ -10,7 +10,8 @@
 			"patterns": [
 				{ "include": "#classDeclaration" },
 				{ "include": "#functionDeclaration" },
-				{ "include": "#variableDeclaration" }
+				{ "include": "#variableDeclaration" },
+				{ "include": "#block" }
 			]
 		},
 		"expression": {
@@ -20,8 +21,8 @@
 			]
 		},
 		"variableDeclaration": {
-			"name": "meta.declaration.variable.lox",
-			"match": "\\b(var)\\s+([A-Za-z][A-Za-z0-9_]*)(?:\\s*(=)\\s*(.*))?;",
+			"name": "meta.variable.declaration.lox",
+			"match": "\\b(var)\\s+(\\w+)(?:\\s*(=)\\s*(.*))?;",
 			"captures": {
 				"1": { "name": "keyword.other.var.lox" },
 				"2": { "patterns": [{ "include": "#identifier" }]},
@@ -30,8 +31,8 @@
 			}
 		},
 		"classDeclaration": {
-			"name": "meta.declaration.class.lox",
-			"begin": "\\b(class)\\s+([A-Za-z][A-Za-z0-9_]*)(?:\\s+<\\s+([A-Za-z][A-Za-z0-9_]*))?\\s*\\{",
+			"name": "meta.class.declaration.lox",
+			"begin": "\\b(class)\\s+(\\w+)(?:\\s+<\\s+(\\w+))?\\s*\\{",
 			"end": "\\}",
 			"captures": {
 				"1": { "name": "keyword.other.class.lox" },
@@ -39,12 +40,12 @@
 				"3": { "name": "entity.name.class.subclass.lox" }
 			},
 			"patterns": [
-				{ "include": "#expression" }
+				{ "include": "#blockContents" }
 			]
 		},
 		"functionDeclaration": {
-			"name": "meta.declaration.function.lox",
-			"begin": "\\b(fun)\\s+([A-Za-z][A-Za-z0-9_]*)(\\(.*\\))\\s*{",
+			"name": "meta.function.declaration.lox",
+			"begin": "\\b(fun)\\s+(\\w+)(\\(.*\\))\\s*{",
 			"end": "\\}",
 			"captures": {
 				"1": { "name": "keyword.other.function.lox"},
@@ -52,19 +53,36 @@
 				"3": { "patterns": [{ "include": "#parameters" }] }
 			},
 			"patterns": [
+				{ "include": "#blockContents" }
+			]
+		},
+		"block": {
+			"name": "meta.block.lox",
+			"begin": "\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"0": { "name": "meta.block.begin.lox" }
+			},
+			"endCaptures": {
+				"0": { "name": "meta.block.end.lox" }
+			},
+			"patterns": [
+				{ "include": "#blockContents" }
+			]
+		},
+		"blockContents": {
+			"patterns": [
+				{ "include": "#statement" },
 				{ "include": "#expression" }
 			]
 		},
 		"call": {
-			"patterns": [
-				{
-					"match": "\\b([A-Za-z][A-Za-z0-9_]*)(\\(.*\\))",
-					"captures": {
-						"1": { "name": "entity.name.function.lox" },
-						"2": { "patterns": [{ "include": "#arguments" }]}
-					}
-				}
-			]
+			"name": "meta.function.call.lox",
+			"match": "\\b(\\w+)(\\(.*\\))",
+			"captures": {
+				"1": { "name": "entity.name.function.lox" },
+				"2": { "patterns": [{ "include": "#arguments" }]}
+			}
 		},
 		"arguments": {
 			"name": "meta.function.arguments.lox",
