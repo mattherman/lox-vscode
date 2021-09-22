@@ -30,6 +30,7 @@
 			"patterns": [
 				{ "include": "#methodCall" },
 				{ "include": "#functionCall" },
+				{ "include": "#objectProperty" },
 				{ "include": "#operator" },
 				{ "include": "#primary" }
 			]
@@ -167,6 +168,13 @@
 			"captures": {
 				"1": { "name": "entity.name.function.lox" },
 				"2": { "patterns": [{ "include": "#arguments" }]}
+			}
+		},
+		"objectProperty": {
+			"name": "meta.object.property.lox",
+			"match": "\\.(\\w+)",
+			"captures": {
+				"1": { "patterns": [{ "include": "#identifier" }]}
 			}
 		},
 		"arguments": {
