@@ -10,25 +10,39 @@
 		"Programming Languages"
 	],
 	"activationEvents": [
-		"onCommand:lox-language-support.helloWorld"
+		"onCommand:workbench.action.tasks.runTask",
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-        "languages": [{
-            "id": "lox",
-            "aliases": ["Lox", "lox"],
-            "extensions": [".lox"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "lox",
-            "scopeName": "source.lox",
-            "path": "./syntaxes/lox.tmLanguage.json"
-        }],
-		"commands": [
+		"languages": [{
+			"id": "lox",
+			"aliases": ["Lox", "lox"],
+			"extensions": [".lox"],
+			"configuration": "./language-configuration.json"
+		}],
+		"grammars": [{
+			"language": "lox",
+			"scopeName": "source.lox",
+			"path": "./syntaxes/lox.tmLanguage.json"
+		}],
+		"taskDefinitions": [
 			{
-				"command": "lox-language-support.helloWorld",
-				"title": "Hello World"
+				"type": "lox"
+			}
+		],
+		"problemMatchers": [
+			{
+				"name": "lox",
+				"owner": "lox",
+				"source": "Lox",
+				"fileLocation": "relative",
+				"pattern": {
+					"regexp": "^\\[(.*), line (\\d+), col (\\d+)\\] Error( at (end|\\'(.*)\\'))?: (.*)$",
+					"file": 1,
+					"line": 2,
+					"column": 3,
+					"message": 7
+				}
 			}
 		]
 	},
