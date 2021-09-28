@@ -10,7 +10,7 @@
 		"Programming Languages"
 	],
 	"activationEvents": [
-		"onCommand:workbench.action.tasks.runTask",
+		"onCommand:workbench.action.tasks.runTask"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

@@ -9,7 +9,7 @@ export class LoxTaskProvider implements vscode.TaskProvider {
             vscode.TaskScope.Workspace,
             'Run Current File',
             'Lox',
-            new vscode.ShellExecution('${workspaceFolder}/run.sh ${relativeFile}'),
+            new vscode.ShellExecution('Lox ${relativeFile}'),
             'lox'
         );
         const start = new vscode.Task(
@@ -17,7 +17,7 @@ export class LoxTaskProvider implements vscode.TaskProvider {
             vscode.TaskScope.Workspace,
             'Start Lox',
             'Lox',
-            new vscode.ShellExecution('${workspaceFolder}/run.sh')
+            new vscode.ShellExecution('Lox')
         );
         return [
             runCurrentFile,
